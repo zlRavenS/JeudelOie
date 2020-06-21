@@ -1,7 +1,6 @@
 package sample;
 
-        import javafx.animation.TranslateTransition;
-        import javafx.event.ActionEvent;
+import javafx.animation.TranslateTransition;
         import javafx.scene.control.Button;
         import javafx.scene.paint.Color;
         import javafx.scene.shape.Circle;
