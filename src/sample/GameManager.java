@@ -11,27 +11,23 @@ import java.util.ArrayList;
 import java.util.List;
 public class GameManager {
 
-    public Player player;                                    // Pour la création des joueurs
-    public Label affichageLance;                             // Afficheur de lancé
-    public int nbrPlayer = 2;                                // Nombre de joueur
-    public List<Player> listPlayer = new ArrayList<Player>();     // Liste avec tous les joueurs
-    public int actifPlayer;                                  // Détermine le joueur qui peut jouer
-    public boolean gameStart = false;                        // Pour lancer la jeu
-    public Button gameButton;                                // Bouton pour recommencer
-    public Button Regles;                                    // Bouton pour Règle
-    public Button Dés;                                       // Bouton pour l'affichage dés
-    public boolean AI;                                       // Activation de l'AI
+    public Player player;
+    public Label affichageLance;
+    public int nbrPlayer = 2;
+    public List<Player> listPlayer = new ArrayList<Player>();
+    public int actifPlayer;
+    public boolean gameStart = false;
+    public Button gameButton;
+    public Button Regles;
+    public Button Dés;
+    public boolean AI;
 
-
-    // Constructeur du GameManager
     GameManager(boolean _AI)
     {
         AI = _AI;
         System.out.println("La partie est lancée ! Jouez");
         CreationPlayer();
         actifPlayer=0;
-
-        // Création du bouton pour recommencer
         gameButton = new Button("Recommencer");
         gameButton.setTranslateX(315);
         gameButton.setTranslateY(710);
@@ -48,7 +44,6 @@ public class GameManager {
         gameStart = true;
         gameButton.setOnAction(actionEvent -> {
 
-            //Réinitialisation des joueurs
             for(int i = 0; i<nbrPlayer;i++)
             {
                 listPlayer.get(i).ChangeRenduPos(39,661);
@@ -62,12 +57,11 @@ public class GameManager {
             gameStart = true;
         });
 
-        // Création du bouton Affichage
+
         affichageLance = new Label("0");
         affichageLance.setTranslateX(170);
         affichageLance.setTranslateY(710);
 
-        // Création du bouton Règles
         Regles = new Button("?");
         Regles.setTranslateX(120);
         Regles.setTranslateY(710);
@@ -81,15 +75,18 @@ public class GameManager {
                         "\n" +
                         "-> Intégration : Vous pouvez relancer le dé.\n" +
                         "-> Gueule de bois : Passez votre prochain tour.\n" +
-                        "-> Notes de Bidault : Un dé est lancé (sur le bouton des évènements). Si vous faites moins de 3, vous retournez à la case des losers.\n" +
+                        "-> Notes de Bidault : Lancez un dé (avec le boutton qui apparait). Si vous faites moins de 3, vous retournez à la case des losers.\n" +
                         "-> Cours de Migniot | Marcuard : Votre prochain lancé de dé est divisé par 2.\n" +
-                        "-> WEI | Voyage à l'étranger : Un dé est lancé. Si vous avez 4 ou moins, avancez. Sinon reculez de 2 case si vous avez 5 ou de 3  si vous avez 6.\n" +
+                        "-> WEI | Voyage à l'étranger : Lancez le dé. Si vous avez 4 ou moins, avancez. Sinon reculez de 2 case si vous avez 5 ou de 3  si vous avez 6.\n" +
                         "-> Respo Geipi : Votre prochain lancé de dé est multiplié par 2.\n" +
-                        "-> Partiel GEIPI | Soutenance de Stage : Passage OBLIGATOIRE. Un dé est lancé. Vous devez avoir au moins 4 pour continuer, sinon, RDV à la case redoublement précédente.\n" +
+                        "-> Partiel GEIPI | Soutenance de Stage : Passage OBLIGATOIRE. Lancez un dé. Vous devez avoir au moins 4 pour continuer, sinon, RDV à la case redoublement précédente.\n" +
                         "-> Conseils de Brachais : Diminue de 1 point les points requis pour Partiel GEIPI\n" +
-                        "-> Gala : Un dé est lancé. Si c'est pair avance de ton chiffre, sinon, recule.\n" +
-                        "-> Semaine de campagne : Un dé est lancé. Si vous faites 1 ou 6, vous passez votre tour, sinon avancez du double de votre dé.\n" +
-                        "-> Projet 3A : Un dé est lancé. Si vous faites 6, avancez jusqu'à la case n°70. Si vous faites 1 ou 2, reculez jusqu'à la case 50, sinon rien ne se passe.\n" +
+                        "-> Gala : Lance le dé. Si c'est pair avance de ton chiffre, sinon, recule.\n" +
+                        "-> Semaine de campagne : Lancez le dé. Si vous faites 1 ou 6, vous passez votre tour, sinon avancez du double de votre dé.\n" +
+                        "-> Projet 3A : Lancez un dé. Si vous faites 6, avancez jusqu'à la case n°70. Si vous faites 1 ou 2, reculez jusqu'à la case 50, sinon rien ne se passe.\n" +
+                        "-> Stage à l'étranger | Stage : Lancez un dé. Si vous faites + de 5, avancez du montant de votre dé. Sinon, avancez d'une seule case.\n" +
+                        "-> Organisation du Gala : Lancez le dé. Si vous faites 3 ou +, votre prochain lancé est doublé.\n" +
+                        "-> Remise de diplôme : Félicitations, vous avez gagné !\n" +
                         "\n" +
                         "   Vous savez tout, maintenant, que le meilleur (et le plus chanceux) gagne !\n" +
                         "\nby Rémi LEFAIVRE & Colin BRACQ - ESIREM - GEIPI2 - IT");
@@ -108,7 +105,6 @@ public class GameManager {
 
     }
 
-    //Passage d'un tour
     public void PassageTour()
     {
         actifPlayer++;
@@ -125,7 +121,6 @@ public class GameManager {
         int[] buttonXPos = new int[5];
         int[] buttonYPos = new int[5];
 
-        // Assignation de l'emplacement des buttons
         switch (nbrPlayer)
         {
             case 2:
@@ -143,7 +138,6 @@ public class GameManager {
 
         }
 
-        // Création et ajout des joueur à la liste
         for (int i = 1;i<= nbrPlayer; i++)
         {
             numero = Integer.toString(i);
@@ -159,7 +153,6 @@ public class GameManager {
         }
     }
 
-    // Avoir la valeur du dé
     public int getDiceValue(Player player){
         int rand;
         if(player.etatPlayer[1] == 1) {
@@ -178,23 +171,24 @@ public class GameManager {
         return rand;
     }
 
-    // Gestion des évenements
     public void eventCase(Player player)
     {
-        // Détection des cases et action en fonction
-        if (player.playerXPos == 351 && player.playerYPos == 661) {
+        int x = player.playerXPos;
+        int y = player.playerYPos;
+
+        if (x == 351 && y == 661) {
             System.out.println("Case n°5 : Intégration !");
             System.out.println("Vous pouvez rejouer !");
             System.out.println("---------------------------------------------------------------------------");
             actifPlayer--;
         }       // Inté 5
-        if (player.playerXPos == 429 && player.playerYPos == 661) {
+        if (x == 429 && y == 661) {
             System.out.println("Case n°6 : Gueule de bois !");
             System.out.println("Vous avez trop bu, passez un tour !");
             System.out.println("---------------------------------------------------------------------------");
             player.etatPlayer[0] = 1;
         }       // Gueule de bois 6
-        if (player.playerXPos == 663 && player.playerYPos == 661) {
+        if (x == 663 && y == 661) {
             System.out.println("Case n°9 : Notes de Bidault !");
             System.out.println("Un dé est lancé, si vous avez fait 1 ou 2, direction la case des losers !\n");
             int de = (int) (Math.random() * 6 + 1);
@@ -210,13 +204,13 @@ public class GameManager {
                 System.out.println("---------------------------------------------------------------------------");
             }
         }       // Bidault 9
-        if (player.playerXPos == 507 && player.playerYPos == 583) {
+        if (x == 507 && y == 583) {
             System.out.println("Case n°12 : Cours de Migniot !");
             System.out.println("A votre prochain tour, votre lancé de dé sera divisé par 2");
             System.out.println("---------------------------------------------------------------------------");
             player.etatPlayer[1] = 1;
         }       // Migniot 12
-        if (player.playerXPos == 351 && player.playerYPos == 583) {
+        if (x == 351 && y == 583) {
             System.out.println("Case n°14 : WEI !");
             System.out.println("Les voyages BDE sont mémorables après à vous de décider comment..");
             System.out.println("Le dé est lancé, si vous avez fait 4 ou moins, avancez de ce chiffre sinon reculez !");
@@ -245,38 +239,38 @@ public class GameManager {
                 player.translatePlayer();
             }
          }       // WEI 14
-        if (player.playerXPos == 273 && player.playerYPos == 583) {
+        if (x == 273 && y == 583) {
             System.out.println("Case n°15 : Gueule de bois !");
             System.out.println("Vous avez trop bu, passez un tour !");
             System.out.println("---------------------------------------------------------------------------");
             player.etatPlayer[0] = 1;
         }       // Gueule de bois 15
-        if (player.playerXPos == 39 && player.playerYPos == 583) {
+        if (x == 39 && y == 583) {
             System.out.println("Case n°18 : Cours de Marcuard !");
             System.out.println("A votre prochain tour, votre lancé de dé sera divisé par 2");
             System.out.println("---------------------------------------------------------------------------");
             player.etatPlayer[1] = 1;
         }        // Marcuard 18
-        if (player.playerXPos == 117 && player.playerYPos == 505) {
+        if (x == 117 && y == 505) {
             System.out.println("Case n°20 : Responsable GEIPI !");
             System.out.println("Vous êtes le Responsable GEIPI");
             System.out.println("A votre prochain tour, votre lancé de dé sera multiplié par 2");
             System.out.println("---------------------------------------------------------------------------");
             player.etatPlayer[2] = 1;
         }       // Respo Geipi 20
-        if (player.playerXPos == 663 && player.playerYPos == 505) {
+        if (x == 663 && y == 505) {
             System.out.println("Case n°27 : Conseils de Brachais !");
             System.out.println("Désormais, vous aurez besoin de faire minimum 3 pour avoir votre année, bien joué !");
             System.out.println("---------------------------------------------------------------------------");
             player.etatPlayer[3] = 1;
         }       // Conseils Brachais 27
-        if (player.playerXPos == 663 && player.playerYPos == 427) {
+        if (x == 663 && y == 427) {
             System.out.println("Case n°28 : Gueule de bois !");
             System.out.println("Vous avez trop bu, passez un tour !");
             System.out.println("---------------------------------------------------------------------------");
             player.etatPlayer[0] = 1;
         }       // Gueule de bois 28
-        if (player.playerXPos == 507 && player.playerYPos == 427){
+        if (x == 507 && y == 427){
             System.out.println("Case n°30 : Gala !");
             System.out.println("Le Gala c'est la remise des diplômes, un concert et surtout beaucoup de champagne !");
             System.out.println("Le dé est lancé, si vous faitez un chiffre pair, avancez de ce chiffre sinon reculez !");
@@ -292,22 +286,17 @@ public class GameManager {
             else{
                 System.out.println("Dommage, vous reculez de "+ de +" cases");
                 System.out.println("---------------------------------------------------------------------------");
-                player.playerXPos += 78;
-
-                if(de == 3){
+                player.playerXPos += 2 * 78;
+                if(de > 2){
                     player.playerYPos += 78;
-                    player.playerXPos += 78*2;
-                    player.directionMove--;
-                }
-                if(de == 5){
-                    player.playerYPos += 78;
+                    player.playerXPos -= 78*(de-3);
                     player.directionMove--;
                 }
                 player.playerPosition -= de;
             }
             player.translatePlayer();
         }        // Gala 30
-        if (player.playerXPos == 273 && player.playerYPos == 427) {
+        if (x == 273 && y == 427) {
             System.out.println("Case n°33 : Voyage à l'étranger !");
             System.out.println("Le voyage à l'étranger c'est l'occasion de faire rayonner l'ESIREM à l'international");
             System.out.println("Le dé est lancé, si vous avez fait 4 ou moins, avancez de ce chiffre sinon reculez !");
@@ -343,7 +332,7 @@ public class GameManager {
                 player.translatePlayer();
             }
         }       // Voyage étranger 33
-        if (player.playerXPos == 39 && player.playerYPos == 427) {
+        if (x == 39 && y == 427) {
             int points = 4-player.etatPlayer[3];
             System.out.println("Case n°36 : Partiel GEIPI !");
             System.out.println("Ca y est, le moment est enfin venu de faire vos preuves");
@@ -367,13 +356,13 @@ public class GameManager {
                 player.playerPosition = 36;
             }
         }        // Partiel Geipi 36
-        if (player.playerXPos == 117 && player.playerYPos == 349) {
+        if (x == 117 && y == 349) {
             System.out.println("Case n°38 : Intégration !");
             System.out.println("Vous pouvez rejouer !");
             System.out.println("---------------------------------------------------------------------------");
             actifPlayer --;
         }       // Inté 38
-        if (player.playerXPos == 429 && player.playerYPos == 349) {
+        if (x == 429 && y == 349) {
             System.out.println("Case n°42 : WEI !");
             System.out.println("Les voyages BDE sont mémorables après à vous de décider comment..");
             System.out.println("Le dé est lancé, si vous avez fait 4 ou moins, avancez de ce chiffre sinon reculez !");
@@ -411,13 +400,13 @@ public class GameManager {
                 player.translatePlayer();
             }
         }       // WEI 42
-        if (player.playerXPos == 507 && player.playerYPos == 349) {
+        if (x == 507 && y == 349) {
             System.out.println("Case n°43 : Gueule de bois !");
             System.out.println("Vous avez trop bu, passez un tour !");
             System.out.println("---------------------------------------------------------------------------");
             player.etatPlayer[0] = 1;
         }       // Gueule de bois 43
-        if (player.playerXPos == 663 && player.playerYPos == 271) {
+        if (x == 663 && y == 271) {
             System.out.println("Case n°46 : Voyage à l'étranger !");
             System.out.println("Le voyage à l'étranger c'est l'occasion de faire rayonner l'ESIREM à l'international");
             System.out.println("Le dé est lancé, si vous avez fait 4 ou moins, avancez de ce chiffre sinon reculez !");
@@ -450,7 +439,7 @@ public class GameManager {
                 player.translatePlayer();
             }
         }       // Voyage étranger 46
-        if (player.playerXPos == 195 && player.playerYPos == 271){
+        if (x == 195 && y == 271){
             System.out.println("Case n°52 : Semaine de Campagne !");
             System.out.println("La fin du mandat arrive.. Un nouveau BDE doit être élu");
             System.out.println("Le dé est lancé, si vous avez fait 1 ou 6, vous passez votre tour. Sinon avancez du double de votre dé !");
@@ -475,13 +464,13 @@ public class GameManager {
                 }
             }
         }        // Semaine de campagne 52
-        if (player.playerXPos == 117 && player.playerYPos == 271) {
+        if (x == 117 && y == 271) {
             System.out.println("Case n°53 : Gueule de bois !");
             System.out.println("Vous avez trop bu, passez un tour !");
             System.out.println("---------------------------------------------------------------------------");
             player.etatPlayer[0] = 1;
         }       // Gueule de bois 53
-        if (player.playerXPos == 117 && player.playerYPos == 193){
+        if (x == 117 && y == 193){
             System.out.println("Case n°56 : Projet 3A !");
             System.out.println("Beaucoup s'y sont cassé les dents, à vous de survivre !");
             System.out.println("Le dé est lancé, si vous avez fait 6, avancez jusqu'à la case 70.");
@@ -511,7 +500,7 @@ public class GameManager {
                 System.out.println(de + ", pas mal tu fais rien du coup !");
             }
         }        // Projet 3A 56
-        if (player.playerXPos == 429 && player.playerYPos == 193){
+        if (x == 429 && y == 193){
             System.out.println("Case n°60 : Gala !");
             System.out.println("Le Gala c'est la remise des diplômes, un concert et surtout beaucoup de champagne !");
             System.out.println("Le dé est lancé, si vous faites un chiffre pair, avancez de ce chiffre sinon reculez !");
@@ -521,7 +510,7 @@ public class GameManager {
             if (de % 2 == 0 ) {
                 System.out.println("Bien joué, vous avancez de " + de + " cases");
                 System.out.println("---------------------------------------------------------------------------");
-                if(de<4){
+                if(de<3){
                     player.playerXPos += de * 78;
                     player.playerPosition += de;
                 }
@@ -540,13 +529,13 @@ public class GameManager {
             }
             player.translatePlayer();
         }        // Gala 60
-        if (player.playerXPos == 507 && player.playerYPos == 193) {
+        if (x == 507 && y == 193) {
             System.out.println("Case n°561 : Gueule de bois !");
             System.out.println("Vous avez trop bu, passez un tour !");
             System.out.println("---------------------------------------------------------------------------");
             player.etatPlayer[0] = 1;
         }       // Gueule de bois 61
-        if (player.playerXPos == 507 && player.playerYPos == 115) {
+        if (x == 507 && y == 115) {
             System.out.println("Case n°66 : Stage à l'étranger !");
             System.out.println("Vous faites vos premiers pas dans le monde professionnel, quelle aubène !");
             System.out.println("Le dé est lancé, si vous faites 6, avancez de ce chiffre !");
@@ -567,7 +556,7 @@ public class GameManager {
                 player.etatPlayer[4] = 0;
             }
         }       // Stage à l'étranger 66
-        if (player.playerXPos == 585 && player.playerYPos == 115) {
+        if (x == 585 && y == 115) {
             System.out.println("Case n°65 : Stage à l'étranger !");
             System.out.println("Vous faites vos premiers pas dans le monde professionnel, quelle aubène !");
             System.out.println("Le dé est lancé, si vous faites 6, avancez de ce chiffre sinon vous avancerez de 1 au prochain tour !");
@@ -588,7 +577,7 @@ public class GameManager {
                 player.etatPlayer[4] = 1;
             }
         }       // Stage à l'étranger 65
-        if (player.playerXPos == 663 && player.playerYPos == 115) {
+        if (x == 663 && y == 115) {
             System.out.println("Case n°64 : Stage à l'étranger !");
             System.out.println("Vous faites vos premiers pas dans le monde professionnel, quelle aubène !");
             System.out.println("Le dé est lancé, si vous faites 6, avancez de ce chiffre sinon vous avancerez de 1 au prochain tour !");
@@ -609,7 +598,7 @@ public class GameManager {
                 player.etatPlayer[4] = 1;
             }
         }       // Stage à l'étranger 64
-        if (player.playerXPos == 663 && player.playerYPos == 193) {
+        if (x == 663 && y == 193) {
             System.out.println("Case n°63 : Stage à l'étranger !");
             System.out.println("Vous faites vos premiers pas dans le monde professionnel, quelle aubène !");
             System.out.println("Le dé est lancé, si vous faites 6, avancez de ce chiffre sinon vous avancerez de 1 au prochain tour !");
@@ -631,7 +620,7 @@ public class GameManager {
                 player.etatPlayer[4] = 1;
             }
         }       // Stage à l'étranger 63
-        if (player.playerXPos == 117 && player.playerYPos == 115) {
+        if (x == 117 && y == 115) {
             System.out.println("Case n°71 : Organisation du Gala !");
             System.out.println("Vous êtes l'organisateur du spectacle où le chammpagne coule à flot !");
             System.out.println("Le dé est lancé, si vous faites 3 ou plus, votre prochain lancé est doublé !");
@@ -647,7 +636,7 @@ public class GameManager {
                 System.out.println(de + ".. T'avais des responsabilités t'as pas assumé.. Tant pis pour toi !");
             }
         }       // Organisation Gala 71
-        if (player.playerXPos == 273 && player.playerYPos== 37) {
+        if (x == 273 && y == 37) {
             System.out.println("Case n°76 : Stage !");
             System.out.println("Vous faites vos premiers pas dans le monde professionnel, quelle aubène !");
             System.out.println("Le dé est lancé, si vous faites 6, avancez de ce chiffre !");
@@ -668,7 +657,7 @@ public class GameManager {
                 player.etatPlayer[4] = 0;
             }
         }        // Stage 76
-        if (player.playerXPos == 195 && player.playerYPos == 37) {
+        if (x == 195 && y == 37) {
             System.out.println("Case n°75 : Stage !");
             System.out.println("Vous faites vos premiers pas dans le monde professionnel, quelle aubène !");
             System.out.println("Le dé est lancé, si vous faites 6, avancez de ce chiffre sinon vous avancerez de 1 au prochain tour !");
@@ -689,7 +678,7 @@ public class GameManager {
                 player.etatPlayer[4] = 1;
             }
         }        // Stage 75
-        if (player.playerXPos == 117 && player.playerYPos == 37) {
+        if (x == 117 && y == 37) {
             System.out.println("Case n°74 : Stage !");
             System.out.println("Vous faites vos premiers pas dans le monde professionnel, quelle aubène !");
             System.out.println("Le dé est lancé, si vous faites 6, avancez de ce chiffre sinon vous avancerez de 1 au prochain tour !");
@@ -710,7 +699,7 @@ public class GameManager {
                 player.etatPlayer[4] = 1;
             }
         }        // Stage 74
-        if (player.playerXPos == 39 && player.playerYPos == 37)  {
+        if (x == 39 && y == 37)  {
             System.out.println("Case n°73 : Stage !");
             System.out.println("Vous faites vos premiers pas dans le monde professionnel, quelle aubène !");
             System.out.println("Le dé est lancé, si vous faites 6, avancez de ce chiffre sinon vous avancerez de 1 au prochain tour !");
@@ -731,7 +720,7 @@ public class GameManager {
                 player.etatPlayer[4] = 1;
             }
         }        // Stage 73
-        if (player.playerXPos == 429 && player.playerYPos == 37) {
+        if (x == 429 && y == 37) {
             System.out.println("Case n°78 : Soutenance de Stage !");
             System.out.println("Vous y êtes presque, il y a plus qu'à montrer que vous avez bien travaillé :)");
             System.out.println("Un dé est lancé, si vous avez fait 4 ou plus vous obtiendez votre diplôme !\n");
