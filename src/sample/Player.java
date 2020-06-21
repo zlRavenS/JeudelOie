@@ -9,23 +9,27 @@ import javafx.animation.TranslateTransition;
 
 public class Player {
 
-    public String Id;
+    public String Id;                                       //Nom du joueur
 
-    public int lance;
+    public int lance;                                      //Valeur du lancé de dé
 
-    public Circle rendu = new Circle(30);
-    public int playerPosition;
-    public int playerNbr;
-    public int playerXPos;
-    public int playerYPos;
-    public int directionMove;
-    public int[] etatPlayer = { 0, 0, 0, 0, 0}; // bourre, fatigue, responsable geipi, point bonus, stage
-    public boolean[] Examen = {false,false}; // Partiel GEIPI, Soutenance Stage
+    public Circle rendu = new Circle(30);               //Visuel du joueur
+
+    public int playerPosition;                             //Case sur laquelle est le joueur
+    public int playerNbr;                                  //Numéro du joueur
+    public int playerXPos;                                 //Position en X du joueur
+    public int playerYPos;                                 //Position en X du joueur
+
+    public int directionMove;                              //Direction de movement en X
+
+    public int[] etatPlayer = { 0, 0, 0, 0, 0};            //état possible du joueur : bourre, fatigue, responsable geipi, point bonus, stage
+    public boolean[] Examen = {false,false};               //Si le joueur a passer l'examen : Partiel GEIPI, Soutenance Stage
     private final GameManager gameManager;
 
-    public boolean AI = false;
-    public Button button;
+    public boolean AI = false; // Si le Player est l'AI
+    public Button button; // Bouton relié au joueur
 
+    //Constructeur du Player
     public Player(GameManager _gameManager,boolean _AI,String _Id, int _playerPosition, int _playerNbr, int _playerXPos, int _playerYPos,int buttonXPos, int buttonYPos)
     {
         gameManager=_gameManager;
@@ -37,6 +41,7 @@ public class Player {
         directionMove = 1;
         AI =_AI;
         rendu.setId(_Id);
+        //Choix couleur pion
         switch (_playerNbr)
         {
             case 1:
@@ -50,6 +55,7 @@ public class Player {
         rendu.setTranslateX(playerXPos);
         rendu.setTranslateY(playerYPos);
 
+        // Ajout ou non du button si pas AI
         if (!_AI){
             button = new Button(_Id);
             button.setTranslateX(buttonXPos);
@@ -61,25 +67,28 @@ public class Player {
          }
     }
 
+    // Action du button du joueur
     public void ActionButton()
     {
         if (gameManager.gameStart) {
             if (playerNbr == gameManager.actifPlayer) {
 
-                lance = gameManager.getDiceValue(this);
-                gameManager.affichageLance.setText(String.valueOf(lance));
-                playerPosition += lance;
-                movePlayer();
+                lance = gameManager.getDiceValue(this); // Lancement du dé
+                gameManager.affichageLance.setText(String.valueOf(lance)); //Affichage
+                playerPosition += lance; // Déplacement théorique
+                movePlayer(); // Déplacement réel
                 System.out.println("---------------------------------------------------------------------------");
                 System.out.println(Id+" a joué\n");
-                gameManager.eventCase(this);
+                gameManager.eventCase(this); //Gestion arrivé une case
 
-                gameManager.PassageTour();
+                gameManager.PassageTour(); // Passage au joueur suivant
 
+                // Vérification si la prochain joueur est bourré, si oui passer son tour
                 if (gameManager.listPlayer.get(gameManager.actifPlayer - 1).etatPlayer[0] == 1) {
                     gameManager.listPlayer.get(gameManager.actifPlayer - 1).etatPlayer[0] = 0;
                     gameManager.PassageTour();
                 }
+                // Vérification si la prochain joueur est une AI, si oui lancer son tour
                 if (gameManager.listPlayer.get(gameManager.actifPlayer - 1).AI)
                 {
                     gameManager.listPlayer.get(gameManager.actifPlayer - 1).ActionButton();
@@ -88,6 +97,7 @@ public class Player {
         }
     }
 
+    // Déplacement du rendu en x et y
     public void ChangeRenduPos(int _playerXPos,int _playerYPos)
     {
         playerXPos = _playerXPos;
@@ -96,6 +106,7 @@ public class Player {
         rendu.setTranslateY(playerYPos);
     }
 
+    // Création animation de déplacement
     public void translatePlayer(){
         TranslateTransition animate = new TranslateTransition(Duration.millis(1000),rendu);
         animate.setToX(playerXPos);
@@ -104,6 +115,7 @@ public class Player {
         animate.play();
     }
 
+    // Gestion movement du joueur
     private void movePlayer(){
         for(int i = 0; i < lance; i++){
             if(playerXPos == 585 && playerYPos == 37) {
@@ -118,36 +130,36 @@ public class Player {
                     gameManager.listPlayer.get(j).button.setVisible(false);
                 }
             }
-
+            // Mouvement en X vers la droite
             if(directionMove % 2 == 1){
                 playerXPos += 78;
                 translatePlayer();
             }
-
+            // Mouvement en X vers la gauche
             if(directionMove % 2 == 0){
                 playerXPos -= 78;
                 translatePlayer();
             }
-
+            // Mouvement en Y en fin de ligne à droite
             if(playerXPos > 664 && playerYPos > 37){
                 playerXPos -= 78;
                 playerYPos -= 78;
                 directionMove++;
                 translatePlayer();
             }
-
+            // Mouvement en Y en fin de ligne à gauche
             if(playerXPos < 38 && playerYPos > 37) {
                 playerXPos += 78;
                 playerYPos -= 78;
                 directionMove++;
                 translatePlayer();
             }
-
+            //Arrêt Partiel Geipi
             if((playerXPos == 39 && playerYPos == 427) && !Examen[0]) {
                 lance = 0;
                 playerPosition = 36;
             }
-
+            // Arrêt Soutenances
             if((playerXPos == 429 && playerYPos == 37) && !Examen[1]){
                 lance =0;
                 playerPosition = 78;

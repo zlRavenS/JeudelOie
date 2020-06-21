@@ -17,16 +17,18 @@ public class Jeudeloie extends Application {
 
     public int[][] cirPos = new int [9][9];
 
+    //Variables de taille pour la fenetre de jeu
     public static final int Tile_Size = 70;
     public static final int width = 9;
     public static final int height = 9;
 
-    public boolean AI = false;
+    public boolean AI = false; //Savoir si il y a une AI
     public GameManager gameManager;
 
 
     private final Group tileGroup = new Group();
 
+    // Création du Menu d'entré
     private Parent menu(Stage stage){
     Pane window = new Pane();
     window.setPrefSize(300,200);
@@ -55,6 +57,7 @@ public class Jeudeloie extends Application {
     return window;
     }
 
+    // Fonction pour lancer la fenetre du jeu
     private void Game()
     {
         Stage stageMenu = new Stage();
@@ -66,6 +69,7 @@ public class Jeudeloie extends Application {
 
     }
 
+    // Créaction Fenêtre pour le jeu
     private Parent createContent(){
         Pane root = new Pane();
         root.setPrefSize((width*Tile_Size) + 70, (height*Tile_Size) + 120);
@@ -82,14 +86,17 @@ public class Jeudeloie extends Application {
             }
         }
 
+        // Création gameManager
         gameManager = new GameManager(AI);
 
+        // Ajout du plateau
         Image img = new Image("sample/plateau.png");
         ImageView bgImage = new ImageView();
         bgImage.setImage(img);
         bgImage.setFitHeight(700);
         bgImage.setFitWidth(700);
 
+        // Ajout des objets à la fenetre
         tileGroup.getChildren().add(bgImage);
         tileGroup.getChildren().add(gameManager.gameButton);
         tileGroup.getChildren().add(gameManager.affichageLance);
@@ -107,7 +114,7 @@ public class Jeudeloie extends Application {
     }
 
 
-
+    // Fonction qui se lance en premiere
     @Override
     public void start(Stage primaryStage) throws Exception{
         Scene scene = new Scene(menu(primaryStage));
